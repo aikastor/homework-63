@@ -1,0 +1,1 @@
+export const CATEGORIES = ['Diary', 'Events', 'News', 'Trivia'];

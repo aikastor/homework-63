@@ -1,26 +1,29 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, {Fragment} from 'react';
+import Container from "reactstrap/es/Container";
+import Navigation from "./components/UI/Navigation/Navigation";
+import {Route, Switch} from "react-router-dom";
+import Posts from "./containers/Posts";
+import NewPost from "./containers/NewPost";
+import SinglePost from "./containers/SinglePost";
+import EditPost from "./containers/EditPost";
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+      <Fragment>
+        <Navigation/>
+        <Container>
+          <Switch>
+            <Route path='/' exact component={Posts}/>
+            <Route path='/posts/:id/edit/' component={EditPost}/>
+            <Route path='/categories/:name' component={Posts}/>
+            <Route path='/posts/new/' component={NewPost}/>
+            <Route path='/posts/:id/' component={SinglePost}/>
+            <Route render={()=> <h1>Not found</h1>}/>
+          </Switch>
+        </Container>
+      </Fragment>
+
   );
-}
+};
 
 export default App;
