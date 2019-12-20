@@ -1,12 +1,14 @@
 import React, {Component} from 'react';
 import axiosApi from "../axios-api";
-import {Badge, Button, Card, CardBody, CardText, CardTitle, Col, Row} from "reactstrap";
+import {Badge, Button, Card, CardBody, CardTitle, Col, Row} from "reactstrap";
 import {Link, NavLink} from "react-router-dom";
 import {CATEGORIES} from "../constants";
+import Spinner from "../components/UI/Spinner/Spinner";
 
 class Posts extends Component {
   state = {
-    posts: []
+    posts: [],
+    loading: false,
   };
   requestData = async ()=> {
     let url = '/posts.json';
@@ -14,10 +16,12 @@ class Posts extends Component {
     if(this.props.match.params.name) {
       url += `?orderBy="category"&equalTo="${this.props.match.params.name}"`
     }
+    this.setState({loading: true});
+
     const response = await axiosApi.get(url);
 
     if (response) {
-      this.setState({posts: response.data})
+      this.setState({posts: response.data, loading: false})
     }
   };
 
@@ -43,19 +47,22 @@ class Posts extends Component {
               ))}
             </ul>
           </Col>
-          <Col xs={9}>
-            {this.state.posts && Object.keys(this.state.posts).map(id => (
-                <Card>
-                  <CardBody>
-                    <span><i>created on: </i></span>
-                    <Badge color="primary">
-                      {new Date(Date.parse((this.state.posts[id].time))).toLocaleString()}
-                    </Badge>
-                    <CardTitle><h4>{this.state.posts[id].title}</h4></CardTitle>
-                    <Button tag={Link} to={'/posts/'+ id}>See more >> </Button>
-                  </CardBody>
-                </Card>
-            ))}
+          <Col xs={9}> {
+            !this.state.loading ?
+                this.state.posts && Object.keys(this.state.posts).map(id => (
+                  <Card>
+                    <CardBody>
+                      <span><i>created on: </i></span>
+                      <Badge color="primary">
+                        {new Date(Date.parse((this.state.posts[id].time))).toLocaleString()}
+                      </Badge>
+                      <CardTitle><h4>{this.state.posts[id].title}</h4></CardTitle>
+                      <Button tag={Link} to={'/posts/'+ id}>See more >> </Button>
+                    </CardBody>
+                  </Card>
+              ))
+              : <Spinner/>
+          }
           </Col>
 
         </Row>

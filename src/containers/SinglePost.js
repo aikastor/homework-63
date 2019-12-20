@@ -3,10 +3,13 @@ import axiosApi from "../axios-api";
 import {Badge, Button} from "reactstrap";
 import {Link} from "react-router-dom";
 
+
+
 class SinglePost extends Component {
   state = {
     post: null
   };
+
   getCurrentPostLink = () => {
     const id = this.props.match.params.id;
     return '/posts/' + id + '.json';

@@ -6,6 +6,8 @@ import Posts from "./containers/Posts";
 import NewPost from "./containers/NewPost";
 import SinglePost from "./containers/SinglePost";
 import EditPost from "./containers/EditPost";
+import About from "./containers/About";
+import Contacts from "./containers/Contacts";
 
 const App = () => {
   return (
@@ -18,6 +20,8 @@ const App = () => {
             <Route path='/categories/:name' component={Posts}/>
             <Route path='/posts/new/' component={NewPost}/>
             <Route path='/posts/:id/' component={SinglePost}/>
+            <Route path='/contacts/' component={Contacts}/>
+            <Route path='/about/' component={About}/>
             <Route render={()=> <h1>Not found</h1>}/>
           </Switch>
         </Container>
